@@ -31,38 +31,53 @@ public class DireccionIP {
         return this.direccionIPv4[0]+"."+this.direccionIPv4[1]+"."+this.direccionIPv4[2]+"."+this.direccionIPv4[3];
     }
 
-    private static final int VALOR_CLASE_A=127;
-    private static final int VALOR_CLASE_B=191;
-    private static final int VALOR_CLASE_C=223;
+    private static final int VALOR_MAXIMO_CLASE_A =127;
+    private static final int VALOR_MAXIMO_CLASE_B =191;
+    private static final int VALOR_MAXIMO_CLASE_C =223;
     private static final int VALOR_MASCARA_RED=255;
 
 
 
     public static String dimeClase(DireccionIP miIP) {
 
-        if (miIP.direccionIPv4[0]<=VALOR_CLASE_A){
+        if (miIP.direccionIPv4[0]<= VALOR_MAXIMO_CLASE_A){
             return CLASE+A;
         }
-        else if (miIP.direccionIPv4[0]<=VALOR_CLASE_B){
+        else if (miIP.direccionIPv4[0]<= VALOR_MAXIMO_CLASE_B){
             return CLASE+B;
         }
-        else if (miIP.direccionIPv4[0]<=VALOR_CLASE_C){
+        else if (miIP.direccionIPv4[0]<= VALOR_MAXIMO_CLASE_C){
             return CLASE+C;
         }
         return "IP no perteneciente a ninguna clase";
     }
 
-    public static String dimeMascaraRed(DireccionIP miIP){
-        if(miIP.direccionIPv4[0]==VALOR_MASCARA_RED && miIP.direccionIPv4[1]==0 && miIP.direccionIPv4[2]==0 && miIP.direccionIPv4[3]==0){
-            return MASCARA_RED+A;
+    public static int[] dimeMascaraRed(DireccionIP miIP){
+        int[] salida=new int[4];
+        if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_A){
+            salida[0]=VALOR_MASCARA_RED;
+            salida[1]=0;
+            salida[2]=0;
+            salida[3]=0;
         }
-        else if(miIP.direccionIPv4[0]==VALOR_MASCARA_RED && miIP.direccionIPv4[1]==VALOR_MASCARA_RED && miIP.direccionIPv4[2]==0 && miIP.direccionIPv4[3]==0){
-            return MASCARA_RED+B;
+        else if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_B){
+            salida[0]=VALOR_MASCARA_RED;
+            salida[1]=VALOR_MASCARA_RED;
+            salida[2]=0;
+            salida[3]=0;
         }
-        else if(miIP.direccionIPv4[0]==VALOR_MASCARA_RED && miIP.direccionIPv4[1]==VALOR_MASCARA_RED && miIP.direccionIPv4[2]==VALOR_MASCARA_RED && miIP.direccionIPv4[3]==0){
-            return MASCARA_RED+C;
+        else if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_C){
+            salida[0]=VALOR_MASCARA_RED;
+            salida[1]=VALOR_MASCARA_RED;
+            salida[2]=VALOR_MASCARA_RED;
+            salida[3]=0;
         }
-        else if(miIP.direccionIPv4[3]==VALOR_MASCARA_RED && miIP.direccionIPv4[2]==VALOR_MASCARA_RED && miIP.direccionIPv4[1]==VALOR_MASCARA_RED){
+
+        return salida;
+    }
+
+    /*public static String dimeBroadcast(DireccionIP miIP){
+        if(miIP.direccionIPv4[3]==VALOR_MASCARA_RED && miIP.direccionIPv4[2]==VALOR_MASCARA_RED && miIP.direccionIPv4[1]==VALOR_MASCARA_RED){
             return BROADCAST+A;
         }
         else if(miIP.direccionIPv4[3]==VALOR_MASCARA_RED && miIP.direccionIPv4[2]==VALOR_MASCARA_RED){
@@ -71,7 +86,57 @@ public class DireccionIP {
         else if(miIP.direccionIPv4[3]==VALOR_MASCARA_RED){
             return BROADCAST+C;
         }
-        return "Máscara de red no perteneciente a ninguna clase";
+
+        return "Broadcast error fatal";
+    }*/
+
+    public static int [] dimeIdRed(DireccionIP miIP){
+        int[] salida=new int[4];
+        salida[0]=miIP.direccionIPv4[0];
+        salida[1]=miIP.direccionIPv4[1];
+        salida[2]=miIP.direccionIPv4[2];
+        salida[3]=0;
+        return salida;
+
+    }
+
+    public static String direccionPrivadaOPublica(DireccionIP miIP){
+        String salida="";
+
+        if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_A){
+            if (miIP.direccionIPv4[0]==10){
+                if (miIP.direccionIPv4[3]==VALOR_MASCARA_RED){
+                    salida="Dirección privada tipo A";
+                }
+            }
+            salida="Dirección pública tipo A";
+        }
+        else if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_B){
+            if (miIP.direccionIPv4[0]==172){
+                if (miIP.direccionIPv4[1]>=16 && miIP.direccionIPv4[1]<=31){
+                    if (miIP.direccionIPv4[3]<=VALOR_MASCARA_RED){
+                        salida="Dirección privada tipo B";
+                    }
+                }
+            }
+            salida="Dirección pública tipo B";
+        }
+        else if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_C){
+            if (miIP.direccionIPv4[0]==192){
+                if (miIP.direccionIPv4[1]==168){
+                    if (miIP.direccionIPv4[3]<=VALOR_MASCARA_RED){
+                        salida="Dirección privada tipo C";
+                    }
+                }
+
+            }
+
+            salida="Dirección pública tipo C";
+
+        }
+
+        return salida;
+
     }
 
 
