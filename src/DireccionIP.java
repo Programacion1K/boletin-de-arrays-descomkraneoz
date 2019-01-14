@@ -28,6 +28,15 @@ public class DireccionIP {
         //this.idRed=new DireccionIP(this.direccionIPv4[0],this.direccionIPv4[1],this.direccionIPv4[2],this.direccionIPv4[3]);
     }
 
+    public static String calculaDireccionesMismaRed(DireccionIP miIP, int cantidad) {
+        String salida="";
+        for (int i = 0; i <cantidad ; i++) {
+            salida+=miIP.direccionIPv4[0]+"."+miIP.direccionIPv4[1]+"."+miIP.direccionIPv4[2]+"."+(miIP.direccionIPv4[3]+i)+"\n";
+
+        }
+        return salida;
+    }
+
     @Override
     public String toString() {
         return this.direccionIPv4[0]+"."+this.direccionIPv4[1]+"."+this.direccionIPv4[2]+"."+this.direccionIPv4[3];
@@ -172,6 +181,14 @@ public class DireccionIP {
         return salida;
     }
 
+    public static String estanMismaRed(DireccionIP x, DireccionIP y) {
+        if (x.getIdRed(x).equals(y.getIdRed(y))){
+            return "Estan en la misma red";
+        }
+        else {
+            return "No estan en la misma red";
+        }
+    }
 
 
 
