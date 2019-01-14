@@ -10,7 +10,9 @@ public class PruebaIPs {
         System.out.println(Arrays.toString(DireccionIP.dimeMascaraRed(mia)));
         System.out.println(Arrays.toString(DireccionIP.dimeIdRed(mia)));
         System.out.println(DireccionIP.direccionPrivadaOPublica(mia));
+        System.out.println("----------------");
 
+        System.out.println(mia.infoIP(mia));
 
     }
 

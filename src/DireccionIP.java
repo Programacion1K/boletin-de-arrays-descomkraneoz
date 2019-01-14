@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class DireccionIP {
     int[] direccionIPv4;
 
@@ -76,6 +78,20 @@ public class DireccionIP {
         return salida;
     }
 
+    public String getMascaraRed(DireccionIP miIP) {
+        String salida="";
+        if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_A){
+            salida=VALOR_MASCARA_RED+"."+0+"."+0+"."+0;
+        }
+        else if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_B){
+            salida=VALOR_MASCARA_RED+"."+VALOR_MASCARA_RED+"."+0+"."+0;
+        }
+        else if (miIP.direccionIPv4[0]<=VALOR_MAXIMO_CLASE_C){
+            salida=VALOR_MASCARA_RED+"."+VALOR_MASCARA_RED+"."+VALOR_MASCARA_RED+"."+0;
+        }
+        return salida;
+    }
+
     /*public static String dimeBroadcast(DireccionIP miIP){
         if(miIP.direccionIPv4[3]==VALOR_MASCARA_RED && miIP.direccionIPv4[2]==VALOR_MASCARA_RED && miIP.direccionIPv4[1]==VALOR_MASCARA_RED){
             return BROADCAST+A;
@@ -96,6 +112,13 @@ public class DireccionIP {
         salida[1]=miIP.direccionIPv4[1];
         salida[2]=miIP.direccionIPv4[2];
         salida[3]=0;
+        return salida;
+
+    }
+
+    public String getIdRed(DireccionIP miIP){
+        String salida="";
+        salida=miIP.direccionIPv4[0]+"."+miIP.direccionIPv4[1]+"."+miIP.direccionIPv4[2]+"."+0;
         return salida;
 
     }
@@ -137,6 +160,16 @@ public class DireccionIP {
 
         return salida;
 
+    }
+
+    public String infoIP(DireccionIP miIP){
+        String salida="";
+        salida+=toString()+"\n";
+        salida+=dimeClase(miIP)+"\n";
+        salida+="La Id de red es: "+getIdRed(miIP)+"\n";
+        salida+="La máscara de red es: "+getMascaraRed(miIP)+"\n";
+        salida+=direccionPrivadaOPublica(miIP);
+        return salida;
     }
 
 
